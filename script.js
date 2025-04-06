@@ -31,18 +31,41 @@ const startTest = (wordCount = 50) => {
     wordsToType.length = 0; // Clear previous words
     wordDisplay.innerHTML = ""; // Clear display
     currentWordIndex = 0;
-    startTime = null;
+    startTime = null; 
     previousEndTime = null;
 
     for (let i = 0; i < wordCount; i++) {
         wordsToType.push(getRandomWord(modeSelect.value));
     }
 
+    //Commence un mot par une majuscule
+    let letterCapitalize = (str) => {
+        let result = "";
+
+        for (let i = 0; i < str.length; i++) {
+            if (i === 0) {
+                result += str[i].toUpperCase();
+            }
+            else {
+                result += str[i];
+            }
+        }
+        return result;
+    }
+    wordsToType[0] = letterCapitalize(wordsToType[0]);
+
     wordsToType.forEach((word, index) => {
-        const span = document.createElement("span");
-        span.textContent = word + " ";
-        if (index === 0) span.style.color = "red"; // Highlight first word
-        wordDisplay.appendChild(span);
+        const mot_span = document.createElement("span");
+        mot_span.textContent = word;
+        if (index < wordsToType.length) {
+            mot_span.textContent += " ";
+        }
+        else {
+            mot_span.textContent += ".";
+        }
+        
+        if (index === 0) mot_span.style.color = "red"; // Highlight first word
+        wordDisplay.appendChild(mot_span);  
     });
 
     inputField.value = "";
@@ -99,7 +122,7 @@ const highlightNextWord = () => {
 inputField.addEventListener("keydown", (event) => {
     startTimer();
     updateWord(event);
-});
+}); 
 modeSelect.addEventListener("change", () => startTest());
 
 // Start the test
