@@ -88,7 +88,7 @@ const getCurrentStats = () => {
 
 // Move to the next word and update stats only on spacebar press
 const updateWord = (event) => {
-    if (event.key === "Enter") { // Check if spacebar is pressed
+    if (event.key === " ") { // Check if spacebar is pressed
         if (inputField.value.trim() === wordsToType[currentWordIndex]) {
             if (!previousEndTime) previousEndTime = startTime;
 
