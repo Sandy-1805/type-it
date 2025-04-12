@@ -183,3 +183,62 @@ modeSelect.addEventListener("change", () => startTest());
 
 // Start the test
 startTest();
+
+const howToPlay = document.querySelector('.navbar_play');
+howToPlay.addEventListener('click', () => {
+    const showToPlay = document.createElement('div');
+    showToPlay.className = 'show_how_to_play';
+    showToPlay.innerHTML = `
+        <div class="show_content">
+            <h2>How to Play</h2>
+            <br>
+            <br>
+            <p>Type correctly on the entered words.
+            Once all the words have been typed, press the space bar to move to the next word.</p>
+            <br>
+            <br>
+            <p>There are three levels of difficulties:
+            <span style="color: green">Easy</span>
+            --><span style="color: orange">Medium</span> 
+            --><span style="color: red">Hard</span>
+            </p>
+            <p>Choose wisely ! </p>
+            <br>
+            <br>
+            <p><span>WARNING!</span></p>
+            <p>One mistake and you restart from the beginning</p>
+            <button class="close_content">OK</button>
+        </div>
+    `;
+    document.body.appendChild(showToPlay);
+    const closeBtn = showToPlay.querySelector('.close_content');
+    closeBtn.addEventListener('click', () => {
+        showToPlay.remove();
+    });
+});
+
+const aboutIt = document.querySelector('.navbar_about');
+aboutIt.addEventListener('click', () => {
+    const showAbout = document.createElement('div');
+    showAbout.className = 'show_about';
+    showAbout.innerHTML = `
+        <div class="show_about_content">
+            <h2>About Type-IT</h2>
+            <br>
+            <br>
+            <p style="font-size: xx-large">"type-it" is a site that allows you to evaluate 
+            your typing speed without making mistakes.</p>
+            <br>
+            <br>
+            <p>Our goal is to help you type faster, that's all.</p>
+            <br>
+            <br>
+            <button class="close_content">OK</button>
+        </div>
+    `;
+    document.body.appendChild(showAbout);
+    const closeBtn = showAbout.querySelector('.close_content');
+    closeBtn.addEventListener('click', () => {
+        showAbout.remove();
+    });
+});
