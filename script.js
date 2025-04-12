@@ -147,8 +147,6 @@ const highlightNextWord = () => {
     const wordElements = wordDisplay.children;
 
     if (currentWordIndex <= wordElements.length) {
-        // console.log(currentWordIndex);
-        
         if (currentWordIndex > 0) { // (currentWordIndex < 0)
             wordElements[currentWordIndex - 1].style.color = "yellow";
         }
