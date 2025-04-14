@@ -211,8 +211,8 @@ howToPlay.addEventListener('click', () => {
         </div>
     `;
     document.body.appendChild(showToPlay);
-    const closeBtn = showToPlay.querySelector('.close_content');
-    closeBtn.addEventListener('click', () => {
+    const closeButton = showToPlay.querySelector('.close_content');
+    closeButton.addEventListener('click', () => {
         showToPlay.remove();
     }); 
 });
@@ -237,8 +237,37 @@ aboutIt.addEventListener('click', () => {
         </div>
     `;
     document.body.appendChild(showAbout);
-    const closeBtn = showAbout.querySelector('.close_content');
-    closeBtn.addEventListener('click', () => {
+    const closeButton = showAbout.querySelector('.close_content');
+    closeButton.addEventListener('click', () => {
         showAbout.remove();
     });
 });
+
+const startContainer = document.querySelector('.start-container');
+const startButton = document.querySelector('.start-button');
+const countdown = document.querySelector('.countdown');
+
+startButton.addEventListener('click', function() {
+    this.style.display = 'none';
+    countdown.style.display = 'block';
+    
+    let count = 3;
+    countdown.textContent = count;
+    
+    const timer = setInterval(() => {
+        count--;
+        countdown.textContent = count > 0 ? count : 'GO!';
+        
+        if (count === 0) {
+            clearInterval(timer);
+            setTimeout(() => {
+                startContainer.style.display = 'none';
+                document.querySelector('main').style.display = 'block';
+                document.querySelector('header').style.display = 'none';
+                document.getElementById('input-field').focus();
+                startTest();
+            }, 500);
+        }
+    }, 1000);
+});
+

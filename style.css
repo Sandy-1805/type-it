@@ -19,7 +19,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: #15161bc7;
+    background:linear-gradient(to left, #15161bc7, rgb(44, 30, 30));
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     color: white;
     padding-block: 1rem;
@@ -76,9 +76,19 @@ header h1 {
     margin-bottom: 2vh;
     font-size: 300%;
 }
-
+label{
+    font-size: x-large;
+    color: white;
+}
 #mode {
-    margin-bottom: 2vh;
+    border: none;
+    width: 100px;
+    height: 6vh;
+    border-radius: 10px;
+    color: white;
+    background-color:#15161bc7;
+    text-align: center;
+    font-size: larger;
 }
 
 .show_how_to_play, .show_about {
@@ -210,4 +220,55 @@ header h1 {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
+}
+
+.start-container {
+    margin-top: 10vh;
+    margin-left: 38vw;
+    width: 25%;
+    height: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.start-button {
+    width: 100%;
+    padding-block: 6vh;
+    font-size: 2rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.start-button:hover {
+    transform: scale(1.02);
+    background-color: #459c49;
+}
+
+.countdown {
+    font-size: 5rem;
+    color: white;
+    margin-top: 15px;
+    display: none;
+}
+
+
+#input-field{
+    margin-left: 30vw;
+    width: 40%;
+    height: 10vh;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+    background-color: #24252eef;
+    color: white;
+    font-size: xx-large;
+}
+#word-display{
+    border: 1px solid red;
 }
