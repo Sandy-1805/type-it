@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Type-IT</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .gradient-text {
+          font-size: 48px;
+          font-weight: bold;
+          background: linear-gradient(to right, #ffffff, rgb(253, 241, 63));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      </style>
 </head>
 
 <body>
@@ -22,17 +31,25 @@
             </ul>
         </div>
     </div>
-    <header>
-        <h1>INCREASE YOUR TYPING SKILLS</h1>
-        <label for="mode">Select Mode:</label>
-        <select id="mode">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
+    <header style="display: block;">
+        <div>
+            <h1 class="gradient-text">INCREASE YOUR TYPING SKILLS</h1>
+            <br>
+            <br>
+            <label for="mode">Select Mode:</label>
+            <select id="mode">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+        <div class="start-container">
+            <button class="start-button">START GAME</button>
+            <div class="countdown"></div>
+        </div>
     </header>
 
-    <main>
+    <main style="display: none;">
         <p id="word-display"></p>
         <input type="text" id="input-field" autofocus>
         <p id="results">Results : </p>
