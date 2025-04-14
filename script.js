@@ -214,7 +214,7 @@ howToPlay.addEventListener('click', () => {
     const closeBtn = showToPlay.querySelector('.close_content');
     closeBtn.addEventListener('click', () => {
         showToPlay.remove();
-    });
+    }); 
 });
 
 const aboutIt = document.querySelector('.navbar_about');
