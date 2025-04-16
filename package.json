@@ -1,16 +1,17 @@
 {
-  "name": "typing-website-template",
+  "name": "type-it",
   "version": "1.0.0",
-  "description": "A barebones typing website for you to complete. ",
-  "main": "index.html",
+  "description": "A barebones typing website for STD24162 and STD24050 to complete.",
+  "main": "loading_page.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "typing",
     "game",
+    "type-it",
     "speedtyping"
   ],
-  "author": "HEI Madagascar : Toky & Fiantso",
+  "author": "Student at HEI Madagascar : Mathieu & Sandy",
   "license": "ISC"
 }
