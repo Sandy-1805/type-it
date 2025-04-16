@@ -6,36 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Type-IT</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .gradient-text {
-          font-size: 48px;
-          font-weight: bold;
-          background: linear-gradient(to right, #ffffff, rgb(253, 241, 63));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-      </style>
 </head>
 
-<body>
-    <div class="head">
-        <div class="page_name">
-            <img src="logo.png" alt="No image found">
-            <h1>Type<span>-IT</span></h1>
-        </div>
-        <div class="navbar">
-            <ul>
-                <li class="navbar_play">How to play</li>
-                <li class="navbar_about">About</li>
-                <li class="navbar_language">English</li>
-            </ul>
-        </div>
-    </div>
-    <header style="display: block;">
+<body class="type_it_body">
+    <header>
+        <h1 class="title">Type-<span class="title-style">It</span></h1>
         <div>
-            <h1 class="gradient-text">INCREASE YOUR TYPING SKILLS</h1>
-            <br>
-            <br>
             <label for="mode">Select Mode:</label>
             <select id="mode">
                 <option value="easy">Easy</option>
@@ -43,16 +19,40 @@
                 <option value="hard">Hard</option>
             </select>
         </div>
-        <div class="start-container">
-            <button class="start-button">START GAME</button>
-            <div class="countdown"></div>
-        </div>
     </header>
 
-    <main style="display: none;">
+    <main>
         <p id="word-display"></p>
-        <input type="text" id="input-field" autofocus>
+        <input type="text" id="input-field" placeholder="Commencer à écrire ici..." autofocus>
         <p id="results">Results : </p>
+        <div class="touch-clavier">
+                <button class="touch">Q</button>
+                <button class="touch">W</button>
+                <button class="touch">E</button>
+                <button class="touch">R</button>
+                <button class="touch">T</button>
+                <button class="touch">Y</button>
+                <button class="touch">U</button>
+                <button class="touch">I</button>
+                <button class="touch">O</button>
+                <button class="touch">P</button>
+                <button class="touch">A</button>
+                <button class="touch">S</button>
+                <button class="touch">D</button>
+                <button class="touch">F</button>
+                <button class="touch">G</button>
+                <button class="touch">H</button>
+                <button class="touch">J</button>
+                <button class="touch">K</button>
+                <button class="touch">L</button>
+                <button class="touch">Z</button>
+                <button class="touch">X</button>
+                <button class="touch">C</button>
+                <button class="touch">V</button>
+                <button class="touch">B</button>
+                <button class="touch">N</button>
+                <button class="touch">M</button>
+        </div>
     </main>
 
     <script src="script.js"></script>
