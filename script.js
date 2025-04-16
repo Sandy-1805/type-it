@@ -6,11 +6,12 @@
  * Sur ce... Amusez-vous bien ! 
  */
 let startTime = null, previousEndTime = null;
-let currentWordIndex = 0;
-let currentLettreIndex = 0;
 let mot_precedant = "";
 let mot_venant_backspace = false;
+let currentWordIndex = 0;
+let currentLetterIndex = 0;
 const wordsToType = [];
+const letterStatus = [];
 
 const modeSelect = document.getElementById("mode");
 const wordDisplay = document.getElementById("word-display");
@@ -31,11 +32,13 @@ const getRandomWord = (mode) => {
 
 // Initialize the typing test
 const startTest = (wordCount = 5) => {
-    wordsToType.length = 0; // Clear previous words
     wordDisplay.innerHTML = ""; // Clear display
-    currentWordIndex = 0;
+    wordsToType.length = 0; // Clear previous words
     startTime = null;
     previousEndTime = null;
+
+    currentWordIndex = 0;
+    currentLetterIndex = 0;
 
     for (let i = 0; i < wordCount; i++) {
         wordsToType.push(getRandomWord(modeSelect.value));
@@ -57,52 +60,61 @@ const startTest = (wordCount = 5) => {
     }
     wordsToType[0] = letterCapitalize(wordsToType[0]);
 
-    wordsToType.forEach((word, index) => {
-        const mot_span = document.createElement("span");
-        mot_span.className = "mot";
-        mot_span.style.color = "white";
-        
-        if (index === currentWordIndex) {
-            mot_span.classList.add("mot-actuelle");
-        }
-        
-        for (let i = 0; i < word.length; i++) {
-            const lettre_span = document.createElement('span');
-            lettre_span.className = "lettre";
-            lettre_span.textContent = word[i];
-            
-            if (index < currentWordIndex) {
-                // lettre_span.style.color = "yellow";
-                lettre_span.classList.add("correct");
-            }
-            else if (index === currentWordIndex) {
-                if (i === currentLettreIndex) {
-                    lettre_span.classList.add("lettre-actuelle");
-                }
-                if (i < currentLettreIndex) {
-                    const ecrire_lettre = inputField.value[i];
-                    if (ecrire_lettre === word[i] || mot_venant_backspace) {
-                        lettre_span.classList.add("correct");
-                    } else if (ecrire_lettre !== word[i]) {
-                        lettre_span.classList.add("incorrect");
-                    }
-                }
-            }
-            mot_span.appendChild(lettre_span);
-        }
-        // if (index < (wordsToType.length - 1)) {
-        //     mot_span.textContent += " ";
-        // }
-        // else {
-        //     mot_span.textContent += ".";
-        // }
-        // mot_span.style.color = "gray";
-        // if (index === 0) {
-        //     mot_span.style.color = "green"; // Highlight first word 
-        // }
-        wordDisplay.appendChild(mot_span);
-    });
+    for (let i = 0; i < wordsToType.length; i++) {
+        letterStatus[i] = [];
 
+        for (let j = 0; j < wordsToType[i].length; j++) {
+            letterStatus[i][j] = wordsToType[i];
+            letterStatus[i].push(letterStatus[i][j]);
+        }
+        letterStatus.push(letterStatus[i]);
+    }
+    // wordsToType.forEach((word, index) => {
+    //     const mot_span = document.createElement("span");
+    //     mot_span.className = "mot";
+    //     mot_span.style.color = "var(--text-color)";
+
+    //     if (index === currentWordIndex) {
+    //         mot_span.classList.add("mot-actuelle");
+    //     }
+
+    //     for (let i = 0; i < word.length; i++) {
+    //         const lettre_span = document.createElement('span');
+    //         lettre_span.className = "lettre";
+    //         lettre_span.textContent = word[i];
+
+    //         if (index < currentWordIndex) {
+    //             lettre_span.classList.add("correct");
+    //         }
+    //         else if (index === currentWordIndex) {
+    //             if (i === currentLetterIndex) {
+    //                 lettre_span.classList.add("lettre-actuelle");
+    //             }
+    //             if (i < currentLetterIndex) {
+    //                 const ecrire_lettre = inputField.value[i];
+    //                 if (ecrire_lettre === word[i] || mot_venant_backspace) {
+    //                     lettre_span.classList.add("correct");
+    //                 } else if (ecrire_lettre !== word[i]) {
+    //                     lettre_span.classList.add("incorrect");
+    //                 }
+    //             }
+    //         }
+    //         mot_span.appendChild(lettre_span);
+    //     }
+    //     // if (index < (wordsToType.length - 1)) {
+    //     //     mot_span.textContent += " ";
+    //     // }
+    //     // else {
+    //     //     mot_span.textContent += ".";
+    //     // }
+    //     // mot_span.style.color = "gray";
+    //     // if (index === 0) {
+    //     //     mot_span.style.color = "green"; // Highlight first word 
+    //     // }
+    //     wordDisplay.appendChild(mot_span);
+    // });
+
+    displayWords();
     inputField.value = "";
     results.textContent = "";
 };
@@ -111,6 +123,36 @@ const startTest = (wordCount = 5) => {
 const startTimer = () => {
     if (!startTime) startTime = Date.now();
 };
+
+let displayWords = () => {
+    wordDisplay.innerHTML = "";
+
+    wordsToType.forEach((word, index) => {
+        const wordSpan = document.createElement("span");
+
+        if (index === currentWordIndex) {
+            wordSpan.classList.add("mot-actuelle");
+        }
+
+        word.split("").forEach((char, charIndex) => {
+            const charSpan = document.createElement("span");
+            charSpan.className = "letter";
+            charSpan.textContent = char;
+
+            if (letterStatus[index][charIndex] !== null) {
+                charSpan.classList.add(letterStatus[index][charIndex]);
+            }
+
+            if (index === currentWordIndex && charIndex === currentLetterIndex) {
+                charSpan.classList.add("current");
+            }
+
+            wordSpan.appendChild(charSpan);
+        });
+        wordDisplay.appendChild(wordSpan);
+        wordDisplay.appendChild(document.createTextNode(" "));
+    });
+}
 
 // Calculate and return WPM & accuracy
 const getCurrentStats = () => {
@@ -125,7 +167,7 @@ const getCurrentStats = () => {
 const updateWord = (event) => {
     const valeur_entrer = inputField.value;
     const mot_actuelle = wordsToType[currentWordIndex];
-    
+
     if (event.key === " " && valeur_entrer.length === mot_actuelle.length) { // Check if spacebar is pressed
         if (valeur_entrer.trim() === mot_actuelle) {
             if (!previousEndTime) previousEndTime = startTime;
@@ -142,17 +184,48 @@ const updateWord = (event) => {
     }
 };
 
-// Highlight the current word in red
+// Highlight the current word in bacground-color 
 const highlightNextWord = () => {
-    const wordElements = wordDisplay.children;
+    const valeur_entrer = inputField.value;
+    const mot_actuelle = wordsToType[currentWordIndex];
+    currentLetterIndex = valeur_entrer.length
 
-    if (currentWordIndex <= wordElements.length) {
-        if (currentWordIndex > 0) { // (currentWordIndex < 0)
-            wordElements[currentWordIndex - 1].style.color = "yellow";
-        }
-        // wordElements[currentWordIndex].style.color = "green";// specifier le mot actuelle
+    if (!letterStatus[currentWordIndex]) {
+        letterStatus[currentWordIndex] = [];
     }
-    mot_precedant = inputField.value;
+    
+    for (let i = 0; i < valeur_entrer.length; i++) {
+        if (i < mot_actuelle.length) {
+            if (valeur_entrer[i] === mot_actuelle[i]) {
+                letterStatus[currentWordIndex][i] = "correct";
+            } else {
+                letterStatus[currentWordIndex][i] = "incorrect";
+            }
+        }
+    }
+    
+    for (let i = valeur_entrer.length; i < mot_actuelle.length; i++) {
+        letterStatus[currentWordIndex][i] = null;
+    }
+
+    if (currentWordIndex < (wordsToType.length - 1)) {
+        if (valeur_entrer === mot_actuelle + " " || ((valeur_entrer + " ").length === (mot_actuelle + " ").length)) {
+            currentWordIndex++;
+            currentLetterIndex = 0;
+            inputField.value = "";
+        }
+    }
+
+    displayWords();
+    // const wordElements = wordDisplay.children;
+
+    // if (currentWordIndex <= wordElements.length) {
+    //     if (currentWordIndex > 0) { // (currentWordIndex < 0)
+    //         wordElements[currentWordIndex - 1].style.color = "var(--primary-color)";
+    //     }
+    //     // wordElements[currentWordIndex].style.color = "green";// specifier le mot actuelle
+    // }
+    // mot_precedant = inputField.value;
 };
 
 //mode d' effacement des mots apres un backspace
@@ -162,8 +235,13 @@ const efface_mot = (e) => {
     if ((valeur_entrer.length === 0) && (e.key === 'Backspace') && (currentWordIndex > 0)) {
         //Revenir au mot precedant avec un backspace
         currentWordIndex--;
-        inputField.value = wordsToType[currentWordIndex] + " ";
+        currentLetterIndex = wordsToType[currentWordIndex].length;
+        inputField.value = wordsToType[currentWordIndex];
         mot_venant_backspace = true;
+
+        // Mettre à jour l'affichage
+        displayWords();
+        e.preventDefault(); // Empêcher le comportement par défaut du backspace
     }
     else {
         mot_venant_backspace = false;
@@ -178,96 +256,44 @@ inputField.addEventListener("keydown", (event) => {
 });
 
 inputField.addEventListener('keydown', efface_mot);
-
+inputField.addEventListener('input', highlightNextWord)
 modeSelect.addEventListener("change", () => startTest());
+
+inputField.addEventListener("keydown", (e) => {
+    let alphabet = "qwertyuiopasdfghjklzxcvbnm".split("");
+    const touchs = document.querySelectorAll(".touch");
+    for (let i = 0; i < 26; i++) {
+        if (e.key === touchs[i].innerText.toLowerCase() || e.key === alphabet[i]) {
+            touchs[i].classList.add("clicked");
+            setTimeout(() => {
+                touchs[i].classList.remove("clicked");
+            }, 2000);
+        }
+    }
+})
 
 // Start the test
 startTest();
 
-const howToPlay = document.querySelector('.navbar_play');
-howToPlay.addEventListener('click', () => {
-    const showToPlay = document.createElement('div');
-    showToPlay.className = 'show_how_to_play';
-    showToPlay.innerHTML = `
-        <div class="show_content">
-            <h2>How to Play</h2>
-            <br>
-            <br>
-            <p>Type correctly on the entered words.
-            Once all the words have been typed, press the space bar to move to the next word.</p>
-            <br>
-            <br>
-            <p>There are three levels of difficulties:
-            <span style="color: green">Easy</span>
-            --><span style="color: orange">Medium</span> 
-            --><span style="color: red">Hard</span>
-            </p>
-            <p>Choose wisely ! </p>
-            <br>
-            <br>
-            <p><span>WARNING!</span></p>
-            <p>One mistake and you restart from the beginning</p>
-            <button class="close_content">OK</button>
-        </div>
-    `;
-    document.body.appendChild(showToPlay);
-    const closeButton = showToPlay.querySelector('.close_content');
-    closeButton.addEventListener('click', () => {
-        showToPlay.remove();
-    }); 
-});
-
-const aboutIt = document.querySelector('.navbar_about');
-aboutIt.addEventListener('click', () => {
-    const showAbout = document.createElement('div');
-    showAbout.className = 'show_about';
-    showAbout.innerHTML = `
-        <div class="show_about_content">
-            <h2>About Type-IT</h2>
-            <br>
-            <br>
-            <p style="font-size: xx-large">"type-it" is a site that allows you to evaluate 
-            your typing speed without making mistakes.</p>
-            <br>
-            <br>
-            <p>Our goal is to help you type faster, that's all.</p>
-            <br>
-            <br>
-            <button class="close_content">OK</button>
-        </div>
-    `;
-    document.body.appendChild(showAbout);
-    const closeButton = showAbout.querySelector('.close_content');
-    closeButton.addEventListener('click', () => {
-        showAbout.remove();
-    });
-});
-
-const startContainer = document.querySelector('.start-container');
-const startButton = document.querySelector('.start-button');
-const countdown = document.querySelector('.countdown');
-
-startButton.addEventListener('click', function() {
-    this.style.display = 'none';
-    countdown.style.display = 'block';
+// const counter = document.querySelector(".counter"); 
+// const start = documnet.querySelector(".start"); 
+// start.addEventListener('click', () => {
+//     start.style.display = 'none';
+//     counter.style.display = 'inline-block';
     
-    let count = 3;
-    countdown.textContent = count;
-    
-    const timer = setInterval(() => {
-        count--;
-        countdown.textContent = count > 0 ? count : 'GO!';
-        
-        if (count === 0) {
-            clearInterval(timer);
-            setTimeout(() => {
-                startContainer.style.display = 'none';
-                document.querySelector('main').style.display = 'block';
-                document.querySelector('header').style.display = 'none';
-                document.getElementById('input-field').focus();
-                startTest();
-            }, 500);
-        }
-    }, 1000);
-});
+//     const count_a_rebour = (count) => {
+//         counter.classList.add("count-a-rebour");
+//         counter.innerText = `${count}`;
 
+//         count--;
+//         setTimeout(() => {
+//             counter.innerText = count;
+//             if (count === 0) {
+//                 counter.innerText = 'GO!';
+//                 startTest();
+//             }
+//             count_a_rebour(count);
+//         }, 1000)
+//     }
+//     count_a_rebour(3);
+// });
