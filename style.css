@@ -14,6 +14,33 @@
     --ombre-color: #f0c14b80;
 }
 
+/* Mode clair */
+.light-mode {
+    --primary-color: #a5673f;
+    --secondary-color: #008080;
+    --text-color: #333333;
+    --dark-color: #f0f0f0;
+    --ombre-color: #f0c14b80;
+    --bg-color: #ffffff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s; /* Animation douce */
+}
+
+#themeButton {
+    background: none;
+    border: none;
+    background-color: var(--text-color);
+    color: var(--dark-color);
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+    padding: 5px;
+}
+
 .loading-body {
     margin: 0;
     display: flex;
@@ -223,6 +250,9 @@ main {
     height: 40%;
     padding: 10px;
 }
+.light-mode #word-display {
+    box-shadow: 0 0 5px 2px #0000001a;
+}
 
 #input-field {
     border: none;
@@ -235,6 +265,11 @@ main {
     text-align: center;
     color: var(--text-color);
     margin-top: 40px;
+}
+
+.light-mode #input-field {
+    background-color: rgba(94, 91, 85, 0.1);
+    border: 2px solid rgba(70, 50, 0, 0.459);
 }
 
 .touch-clavier {

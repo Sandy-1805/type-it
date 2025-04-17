@@ -297,3 +297,30 @@ startTest();
 //     }
 //     count_a_rebour(3);
 // });
+// Récupère le bouton
+const theme = document.getElementById("themeButton");
+
+// Au clic, change le thème
+theme.addEventListener("click", function() {
+    // Si le body a la classe light-mode
+    if (document.body.classList.contains("light-mode")) {
+        // Passer en mode sombre
+        document.body.classList.remove("light-mode");
+        theme.textContent = "Light Mode"; // Change l'emoji
+        localStorage.setItem("theme", "dark"); // Sauvegarde
+    } else {
+        // Passer en mode clair
+        document.body.classList.add("light-mode");
+        theme.textContent = "Dark Mode"; // Change l'emoji
+        localStorage.setItem("theme", "light"); // Sauvegarde
+    }
+});
+
+// Vérifie le thème sauvegardé au chargement
+if (localStorage.getItem("theme") === "light") {
+    document.body.classList.add("light-mode");
+    theme.textContent = "Dark Mode";
+} else {
+    document.body.classList.remove("light-mode");
+    theme.textContent = "Light Mode";
+}
