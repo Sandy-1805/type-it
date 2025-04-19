@@ -181,11 +181,11 @@ const updateWord = (event) => {
         mot_wpm.innerText = `WPM: ${wpm}`;
         mot_accuracy.innerText = `ACCURACY: ${accuracy}%`;
 
-        if (accuracy >= 70) {
+        if (accuracy >= 70 && currentWordIndex === (wordsToType[wordsToType.length - 1])) {
             progres_title_lose.classList.add("not-display");
             progres_icon_lose.classList.add("not-display");
         }
-        else if (accuracy < 70) {
+        else {
             progres_title_win.classList.add("not-display");
             progres_icon_win.classList.add("not-display");
         }
@@ -222,9 +222,9 @@ const highlightNextWord = () => {
 
     if (valeur_entrer.endsWith(" ") && valeur_entrer.trim().length === mot_actuelle.length) {
         currentWordIndex++;
-        currentLetterIndex = 0;
         inputField.value = "";
     }
+    currentLetterIndex = inputField.value.length - 1;
     displayWords();
 };
 
@@ -303,6 +303,8 @@ const help = document.querySelector(".help-container");
 const button_interrogation = document.querySelector(".interrogation");
 const footer = document.querySelector("footer");
 const button_to_footer = document.querySelector(".description");
+const back_button_H = document.querySelector(".back-button-help");
+const back_button_D = document.querySelector(".back-button-description");
 
 button_interrogation.addEventListener("click", () => {
     navbar.classList.remove("navbar-display");
@@ -316,21 +318,33 @@ button_to_footer.addEventListener('click', () => {
     help.classList.remove("help-display");
 })
 
+back_button_H.addEventListener("click", () => {
+    navbar.classList.remove("navbar-display");
+    footer.classList.remove("footer-display");
+    help.classList.remove("help-display");
+})
+
+back_button_D.addEventListener("click", () => {
+    navbar.classList.remove("navbar-display");
+    footer.classList.remove("footer-display");
+    help.classList.remove("help-display");
+})
+
 // Récupère le bouton
 const theme = document.getElementById("themeButton");
 
 // Au clic, change le thème
-theme.addEventListener("click", function() {
+theme.addEventListener("click", function () {
     // Si le body a la classe light-mode
     if (document.body.classList.contains("light-mode")) {
         // Passer en mode sombre
         document.body.classList.remove("light-mode");
-        theme.textContent = "Light Mode"; // Change l'emoji
+        theme.textContent = "Light Mode";      // Change l'emoji
         localStorage.setItem("theme", "dark"); // Sauvegarde
     } else {
         // Passer en mode clair
         document.body.classList.add("light-mode");
-        theme.textContent = "Dark Mode"; // Change l'emoji
+        theme.textContent = "Dark Mode";        // Change l'emoji
         localStorage.setItem("theme", "light"); // Sauvegarde
     }
 });

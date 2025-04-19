@@ -24,28 +24,30 @@ body {
 /* Mode clair */
 .light-mode {
     --primary-color: #a5673f;
-    --secondary-color: #008080;
+    --secondary-color: teal;
     --text-color: #333333;
-    --dark-color: #f0f0f0;
-    --ombre-color: #f0c14b80;
+    --dark-color: #d3d3d3;
+    --ombre-color: #444444;
     --bg-color: #ffffff;
+    --red-color: #ff0000;
 }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: all 0.3s; /* Animation douce */
+    transition: all 0.3s;
+    /* Animation douce */
 }
 
 #themeButton {
     background: none;
     border: none;
-    background-color: var(--text-color);
+    background-color: var(--primary-color);
     color: var(--dark-color);
     font-size: 20px;
     cursor: pointer;
-    margin-left: 20px;
     padding: 5px;
+    border-radius: 8px;
 }
 
 .loading-body {
@@ -112,7 +114,7 @@ body {
     text-align: center;
 }
 
-.container > div {
+.container>div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -176,9 +178,9 @@ option,
 }
 
 header {
-    box-shadow: 2px -2px 8px 5px var(--ombre-color);
+    box-shadow: 0px -2px 8px 2px var(--ombre-color);
     color: var(--secondary-color);
-    height: 80px;
+    height: 90px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -202,6 +204,16 @@ header .title {
     color: var(--dark-color);
     padding: 5px;
     border-radius: 4px;
+}
+
+#count-down {
+    border: var(--primary-color) 2px solid;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 1.5em;
+    font-weight: bold;
+    font-size: 12pt;
 }
 
 #mode-header,
@@ -362,14 +374,19 @@ main {
 }
 
 #word-display {
-    box-shadow: 0 0 5px 2px #fafafa1a;
     border-radius: 8px;
     width: 90%;
     height: 40%;
     padding: 10px;
 }
+
 .light-mode #word-display {
     box-shadow: 0 0 5px 2px #0000001a;
+}
+
+.light-mode .start-button {
+    background-color: var(--primary-color);
+    color: var(--dark-color);
 }
 
 #input-field {
@@ -378,8 +395,7 @@ main {
     border-radius: 4px;
     height: 40px;
     width: 90%;
-    background-color: rgba(226, 221, 208, 0.1);
-    border: 2px solid rgba(255, 183, 0, 0.1);
+    border-bottom: 2px solid rgba(255, 183, 0, 0.1);
     text-align: center;
     color: var(--text-color);
     margin-top: 40px;
@@ -387,7 +403,7 @@ main {
 
 .light-mode #input-field {
     background-color: rgba(94, 91, 85, 0.1);
-    border: 2px solid rgba(70, 50, 0, 0.459);
+    border-bottom: 2px solid rgba(70, 50, 0, 0.459);
 }
 
 .touch-clavier {
@@ -408,6 +424,10 @@ main {
     padding: 20px 15px;
     position: relative;
     top: 15%;
+}
+
+.light-mode .resultat {
+    color: var(--text-color);
 }
 
 .resultats {
@@ -468,6 +488,11 @@ main {
     text-shadow: 4px 1px 5px #1a1a1a;
 }
 
+.light-mode .resultat-values {
+    text-shadow: none;
+    color: var(--bg-color);
+}
+
 .resultat-values div {
     display: flex;
     flex-direction: column;
@@ -492,6 +517,29 @@ main {
     transition: all 2s;
 }
 
+.back-button-help,
+.back-button-description {
+    position: sticky;
+    top: 12vh;
+    background-color: var(--primary-color);
+    color: var(--dark-color);
+    border: none;
+    padding: 0.5em;
+    border-radius: 8px;
+    font-size: 18pt;
+    font-weight: bold;
+    width: fit-content;
+    box-shadow: 4px 4px 15px 2px var(--ombre-color);
+    cursor: pointer;
+    animation: zoom 2s infinite alternate ease-in-out;
+    1
+}
+
+.back-button-help:hover,
+.back-button-description:hover {
+    color: var(--secondary-color);
+}
+
 .help-display {
     left: 0;
 }
@@ -511,6 +559,17 @@ main {
     box-shadow: 0px 0px 8px 20px #e2ddd01a;
     margin-block: 50px;
     border-radius: 8px;
+}
+
+.light-mode .help-container,
+.light-mode footer {
+    background-color: var(--primary-color);
+    backdrop-filter: none;
+    width: 100%;
+}
+
+.light-mode .help {
+    color: var(--dark-color);
 }
 
 .help h2,
@@ -589,7 +648,7 @@ footer {
     padding-top: 100px;
     left: -100%;
     margin-top: 50%;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -599,6 +658,24 @@ footer {
 }
 
 .footer-display {
+    display: flex;
     top: -80vh;
     left: 0;
+}
+
+@media (width <= 900px) {
+    .resultat {
+        width: 100%;
+    }
+
+    .start-button {
+        position: relative;
+        top: 20%;
+        z-index: 30;
+    }
+}
+@media (width <= 700px) {
+    .container .selection {
+        display: none;
+    }
 }
