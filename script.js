@@ -13,7 +13,7 @@ let currentLetterIndex = 0;
 const wordsToType = [];
 const letterStatus = [];
 
-const modeSelect = document.getElementById("mode");
+const modeSelect = document.getElementById("mode-header");
 const wordDisplay = document.getElementById("word-display");
 const inputField = document.getElementById("input-field");
 const results = document.getElementById("results");
@@ -31,7 +31,7 @@ const getRandomWord = (mode) => {
 };
 
 // Initialize the typing test
-const startTest = (wordCount = 5) => {
+const startTest = (wordCount = 20) => {
     wordDisplay.innerHTML = ""; // Clear display
     wordsToType.length = 0; // Clear previous words
     startTime = null;
@@ -39,6 +39,16 @@ const startTest = (wordCount = 5) => {
 
     currentWordIndex = 0;
     currentLetterIndex = 0;
+
+    if (modeSelect.value === "easy") {
+        wordCount = 20;
+    }
+    else if (modeSelect.value === "medium") {
+        wordCount = 45;
+    }
+    else if (modeSelect.value === "hard") {
+        wordCount = 50
+    }
 
     for (let i = 0; i < wordCount; i++) {
         wordsToType.push(getRandomWord(modeSelect.value));
@@ -69,50 +79,6 @@ const startTest = (wordCount = 5) => {
         }
         letterStatus.push(letterStatus[i]);
     }
-    // wordsToType.forEach((word, index) => {
-    //     const mot_span = document.createElement("span");
-    //     mot_span.className = "mot";
-    //     mot_span.style.color = "var(--text-color)";
-
-    //     if (index === currentWordIndex) {
-    //         mot_span.classList.add("mot-actuelle");
-    //     }
-
-    //     for (let i = 0; i < word.length; i++) {
-    //         const lettre_span = document.createElement('span');
-    //         lettre_span.className = "lettre";
-    //         lettre_span.textContent = word[i];
-
-    //         if (index < currentWordIndex) {
-    //             lettre_span.classList.add("correct");
-    //         }
-    //         else if (index === currentWordIndex) {
-    //             if (i === currentLetterIndex) {
-    //                 lettre_span.classList.add("lettre-actuelle");
-    //             }
-    //             if (i < currentLetterIndex) {
-    //                 const ecrire_lettre = inputField.value[i];
-    //                 if (ecrire_lettre === word[i] || mot_venant_backspace) {
-    //                     lettre_span.classList.add("correct");
-    //                 } else if (ecrire_lettre !== word[i]) {
-    //                     lettre_span.classList.add("incorrect");
-    //                 }
-    //             }
-    //         }
-    //         mot_span.appendChild(lettre_span);
-    //     }
-    //     // if (index < (wordsToType.length - 1)) {
-    //     //     mot_span.textContent += " ";
-    //     // }
-    //     // else {
-    //     //     mot_span.textContent += ".";
-    //     // }
-    //     // mot_span.style.color = "gray";
-    //     // if (index === 0) {
-    //     //     mot_span.style.color = "green"; // Highlight first word 
-    //     // }
-    //     wordDisplay.appendChild(mot_span);
-    // });
 
     displayWords();
     inputField.value = "";
@@ -156,9 +122,37 @@ let displayWords = () => {
 
 // Calculate and return WPM & accuracy
 const getCurrentStats = () => {
-    const elapsedTime = (Date.now() - previousEndTime) / 1000; // Seconds
-    const wpm = (wordsToType[currentWordIndex].length / 5) / (elapsedTime / 60); // 5 chars = 1 word
-    const accuracy = (wordsToType[currentWordIndex].length / inputField.value.length) * 100;
+    if (!startTime) {
+        return { wpm: 0, accuracy: 0 };
+    }
+    const elapsedTime = (Date.now() - startTime) / (1000 * 60); // Seconds
+
+    let totalChars = 0;
+    let correctChars = 0;
+    let spaceCount = 0;
+
+    for (let i = 0; i < currentWordIndex; i++) {
+        totalChars += wordsToType[i].length + 1;
+        correctChars += wordsToType[i].length;
+    }
+
+    const valeur_entrer = inputField.value;
+    const mot_actuelle = wordsToType[currentWordIndex];
+
+    totalChars += valeur_entrer.length;
+
+    if (valeur_entrer.includes(' ')) {
+        spaceCount++;
+    }
+
+    for (let i = 0; i < valeur_entrer.length; i++) {
+        if (i < mot_actuelle.length && valeur_entrer[i] === mot_actuelle[i]) {
+            correctChars++;
+        }
+    }
+
+    const wpm = ((totalChars + spaceCount) / 5) / (elapsedTime); // 5 chars = 1 word
+    const accuracy = (correctChars / totalChars) * 100;
 
     return { wpm: wpm.toFixed(2), accuracy: accuracy.toFixed(2) };
 };
@@ -168,19 +162,37 @@ const updateWord = (event) => {
     const valeur_entrer = inputField.value;
     const mot_actuelle = wordsToType[currentWordIndex];
 
-    if (event.key === " " && valeur_entrer.length === mot_actuelle.length) { // Check if spacebar is pressed
-        if (valeur_entrer.trim() === mot_actuelle) {
-            if (!previousEndTime) previousEndTime = startTime;
-            const { wpm, accuracy } = getCurrentStats();
-            results.textContent = `WPM: ${wpm}, Accuracy: ${accuracy}%`;
+    if (event.key === " " && valeur_entrer.trim().length === mot_actuelle.length) {
+        event.preventDefault();
 
-            currentWordIndex++;
-            previousEndTime = Date.now();
-            highlightNextWord();
+        if (!startTime) startTime = Date.now();
 
-            inputField.value = ""; // Clear input field after space
-            event.preventDefault(); // Prevent adding extra spaces
+        const { wpm, accuracy } = getCurrentStats();
+
+        const mot_wpm = document.querySelector("#wpm");
+        const mot_accuracy = document.querySelector("#accuracy");
+
+        const progres_title_win = document.querySelector(".progression-win");
+        const progres_icon_win = document.querySelector(".progres-icon-win");
+        const progres_title_lose = document.querySelector(".progression-lose");
+        const progres_icon_lose = document.querySelector(".progres-icon-lose");
+
+        results.textContent = `WPM: ${wpm}, Accuracy: ${accuracy}%`;
+        mot_wpm.innerText = `WPM: ${wpm}`;
+        mot_accuracy.innerText = `ACCURACY: ${accuracy}%`;
+
+        if (accuracy >= 70) {
+            progres_title_lose.classList.add("not-display");
+            progres_icon_lose.classList.add("not-display");
         }
+        else if (accuracy < 70) {
+            progres_title_win.classList.add("not-display");
+            progres_icon_win.classList.add("not-display");
+        }
+
+        currentWordIndex++;
+        inputField.value = "";  // Clear input field after space
+        displayWords();
     }
 };
 
@@ -188,12 +200,12 @@ const updateWord = (event) => {
 const highlightNextWord = () => {
     const valeur_entrer = inputField.value;
     const mot_actuelle = wordsToType[currentWordIndex];
-    currentLetterIndex = valeur_entrer.length
+    // currentLetterIndex = valeur_entrer.length
 
     if (!letterStatus[currentWordIndex]) {
         letterStatus[currentWordIndex] = [];
     }
-    
+
     for (let i = 0; i < valeur_entrer.length; i++) {
         if (i < mot_actuelle.length) {
             if (valeur_entrer[i] === mot_actuelle[i]) {
@@ -203,29 +215,17 @@ const highlightNextWord = () => {
             }
         }
     }
-    
+
     for (let i = valeur_entrer.length; i < mot_actuelle.length; i++) {
         letterStatus[currentWordIndex][i] = null;
     }
 
-    if (currentWordIndex < (wordsToType.length - 1)) {
-        if (valeur_entrer === mot_actuelle + " " || ((valeur_entrer + " ").length === (mot_actuelle + " ").length)) {
-            currentWordIndex++;
-            currentLetterIndex = 0;
-            inputField.value = "";
-        }
+    if (valeur_entrer.endsWith(" ") && valeur_entrer.trim().length === mot_actuelle.length) {
+        currentWordIndex++;
+        currentLetterIndex = 0;
+        inputField.value = "";
     }
-
     displayWords();
-    // const wordElements = wordDisplay.children;
-
-    // if (currentWordIndex <= wordElements.length) {
-    //     if (currentWordIndex > 0) { // (currentWordIndex < 0)
-    //         wordElements[currentWordIndex - 1].style.color = "var(--primary-color)";
-    //     }
-    //     // wordElements[currentWordIndex].style.color = "green";// specifier le mot actuelle
-    // }
-    // mot_precedant = inputField.value;
 };
 
 //mode d' effacement des mots apres un backspace
@@ -272,28 +272,49 @@ inputField.addEventListener("keydown", (e) => {
     }
 })
 
+document.addEventListener('DOMContentLoaded', () => {
+    let counter = document.querySelector("#count-down");
+
+    const count_a_rebour = (count) => {
+        counter.innerText = `${count}s`;
+        count--;
+
+        setTimeout(() => {
+            counter.innerText = `${count}s`;
+
+            if (count <= 0) {
+                const resultats_to_display = document.querySelector(".resultats");
+                resultats_to_display.classList.add("resultat-display");
+                return;
+            }
+            count_a_rebour(count);
+        }, 1000)
+    }
+    count_a_rebour(60);
+});
+
+const menu = document.querySelector("#menu-bars");
+const navbar = document.querySelector(".navbar");
+menu.addEventListener('click', () => {
+    navbar.classList.toggle("navbar-display");
+})
+
+const help = document.querySelector(".help-container");
+const button_interrogation = document.querySelector(".interrogation");
+const footer = document.querySelector("footer");
+const button_to_footer = document.querySelector(".description");
+
+button_interrogation.addEventListener("click", () => {
+    navbar.classList.remove("navbar-display");
+    help.classList.toggle("help-display");
+    footer.classList.remove("footer-display");
+});
+
+button_to_footer.addEventListener('click', () => {
+    navbar.classList.remove("navbar-display");
+    footer.classList.toggle("footer-display");
+    help.classList.remove("help-display");
+})
+
 // Start the test
 startTest();
-
-// const counter = document.querySelector(".counter"); 
-// const start = documnet.querySelector(".start"); 
-// start.addEventListener('click', () => {
-//     start.style.display = 'none';
-//     counter.style.display = 'inline-block';
-    
-//     const count_a_rebour = (count) => {
-//         counter.classList.add("count-a-rebour");
-//         counter.innerText = `${count}`;
-
-//         count--;
-//         setTimeout(() => {
-//             counter.innerText = count;
-//             if (count === 0) {
-//                 counter.innerText = 'GO!';
-//                 startTest();
-//             }
-//             count_a_rebour(count);
-//         }, 1000)
-//     }
-//     count_a_rebour(3);
-// });
