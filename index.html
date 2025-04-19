@@ -2,58 +2,143 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Type-IT</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="type_it_body">
     <header>
         <h1 class="title">Type-<span class="title-style">It</span></h1>
-        <div>
-            <label for="mode">Select Mode:</label>
-            <select id="mode">
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-            </select>
+
+        <div class="container">
+            <div>
+                <label for="mode-header">Select Mode:</label>
+                <select id="mode-header">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            <div id="count-down">60s</div>
         </div>
+
+        <button id="menu-bars">Menu</button>
     </header>
 
     <main>
         <p id="word-display"></p>
-        <input type="text" id="input-field" placeholder="Commencer à écrire ici..." autofocus>
+        <input type="text" id="input-field" placeholder="Commencer à écrire ici..." autocomplete="off" autocorrect="off"
+            autocapitalize="off" spellcheck="false" autofocus>
         <p id="results">Results : </p>
         <div class="touch-clavier">
-                <button class="touch">Q</button>
-                <button class="touch">W</button>
-                <button class="touch">E</button>
-                <button class="touch">R</button>
-                <button class="touch">T</button>
-                <button class="touch">Y</button>
-                <button class="touch">U</button>
-                <button class="touch">I</button>
-                <button class="touch">O</button>
-                <button class="touch">P</button>
-                <button class="touch">A</button>
-                <button class="touch">S</button>
-                <button class="touch">D</button>
-                <button class="touch">F</button>
-                <button class="touch">G</button>
-                <button class="touch">H</button>
-                <button class="touch">J</button>
-                <button class="touch">K</button>
-                <button class="touch">L</button>
-                <button class="touch">Z</button>
-                <button class="touch">X</button>
-                <button class="touch">C</button>
-                <button class="touch">V</button>
-                <button class="touch">B</button>
-                <button class="touch">N</button>
-                <button class="touch">M</button>
+            <button class="touch">Q</button>
+            <button class="touch">W</button>
+            <button class="touch">E</button>
+            <button class="touch">R</button>
+            <button class="touch">T</button>
+            <button class="touch">Y</button>
+            <button class="touch">U</button>
+            <button class="touch">I</button>
+            <button class="touch">O</button>
+            <button class="touch">P</button>
+            <button class="touch">A</button>
+            <button class="touch">S</button>
+            <button class="touch">D</button>
+            <button class="touch">F</button>
+            <button class="touch">G</button>
+            <button class="touch">H</button>
+            <button class="touch">J</button>
+            <button class="touch">K</button>
+            <button class="touch">L</button>
+            <button class="touch">Z</button>
+            <button class="touch">X</button>
+            <button class="touch">C</button>
+            <button class="touch">V</button>
+            <button class="touch">B</button>
+            <button class="touch">N</button>
+            <button class="touch">M</button>
+        </div>
+
+        <div class="resultats">
+            <a href="./loading_page.html" class="start-button">Recommencer</a>
+            <div class="resultat">
+                <div class="progression">
+                    <h1 class="progression-lose">GAME OVER</h1>
+                    <h1 class="progression-win">VICTOIRE</h1>
+                    <div class="resultat-values">
+                        <div>
+                            <p class="progres-icon-lose">☠️</p>
+                            <p class="progres-icon-win">🏆</p>
+                        </div>
+                        <div>
+                            <h2 id="wpm">WPM: 0.00</h2>
+                            <h2 id="accuracy">ACCURACY: 0.00%</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar">
+            <ul>
+                <li>
+                    <label for="mode-header">Select Mode:</label>
+                    <select id="mode-navbar">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </li>
+                <li>
+                    <div>Time select: </div>
+                    <div>60s</div>
+                </li>
+                <li>
+                    <div class="description">Description du jeu</div>
+                </li>
+                <li>
+                    <div>How to play :</div>
+                    <p class="interrogation">?</p>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="help-container">
+            <div class="help">
+                <h2>Les différents mode de jeux: </h2>
+                <p>Ce sont : easy, medium, et hard</p>
+                <h3>Easy</h3>
+                <p>60s chrono, le jeu de frappe est facile à complèter, donc la victoire est facile à atteindre.</p>
+                <h3>Medium</h3>
+                <p>Encore 60s chrono, mais les phrase sont devenu nombreux la pression empêche notre victoire.</p>
+                <h3>Hard</h3>
+                <p>Toujours 60s chrono et c' est le plus dur pour cette mode sauf si la victoire cours dans vos veine.
+                </p>
+            </div>
+            <div class="help">
+                <h2>Comment jouer: </h2>
+                <p>L'objectif c'est de terminer la phrase avant le chrono avec une précision suppérieur à 70%.</p>
+            </div>
         </div>
     </main>
+
+    <footer>
+        <div class="help">
+            <h2>Design: </h2>
+            <p>Mathieu STD24162</p>
+            <p>Sandy STD24050</p>
+            <h2>L'invention de notre nom Type-It: </h2>
+            <p>Cette jeu s'appelle Type-It parcequ' en domaine de travaille les soins des écritures doivent être mise en
+                valeur.</p>
+            <p>De plus, l'erreur est humaine et grâce à Type-It on s'exerce pour éviter ses erreurs avec une vitesse
+                incroyable.</p>
+            <h2>L'abréviation It</h2>
+            <p>Pour nous, <span class="title-style">It</span> est l'abreviation de International Typing</p>
+            <h2>Groupe: </h2>
+            <p>K2</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
