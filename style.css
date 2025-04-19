@@ -21,6 +21,33 @@ body {
     max-height: 100vh;
 }
 
+/* Mode clair */
+.light-mode {
+    --primary-color: #a5673f;
+    --secondary-color: #008080;
+    --text-color: #333333;
+    --dark-color: #f0f0f0;
+    --ombre-color: #f0c14b80;
+    --bg-color: #ffffff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s; /* Animation douce */
+}
+
+#themeButton {
+    background: none;
+    border: none;
+    background-color: var(--text-color);
+    color: var(--dark-color);
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+    padding: 5px;
+}
+
 .loading-body {
     margin: 0;
     display: flex;
@@ -85,7 +112,7 @@ body {
     text-align: center;
 }
 
-.container>div {
+.container > div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -281,6 +308,86 @@ main {
     background-color: rgba(240, 193, 75, 0.1);
     border-radius: 4px;
     padding: 2px 4px;
+}
+
+/*    interface du jeu de frappe*/
+.type_it_body {
+    margin: 0;
+    background-color: var(--dark-color);
+    height: 100vh;
+}
+
+header {
+    box-shadow: 1px 1px 5px var(--text-color);
+    color: var(--secondary-color);
+    height: 11vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 5px 40px;
+}
+
+header .title {
+    color: var(--text-color);
+    font-size: 2rem;
+}
+
+.title-style {
+    background-color: var(--primary-color);
+    color: var(--dark-color);
+    padding: 5px;
+    border-radius: 4px;
+}
+
+#mode {
+    background-color: var(--secondary-color);
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    color: var(--dark-color);
+    font-weight: bold;
+    padding: 0.2rem 0.4rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 89vh;
+    padding: 10px;
+    color: var(--text-color);
+}
+
+#word-display {
+    box-shadow: 0 0 5px 2px #fafafa1a;
+    border-radius: 8px;
+    width: 90%;
+    height: 40%;
+    padding: 10px;
+}
+.light-mode #word-display {
+    box-shadow: 0 0 5px 2px #0000001a;
+}
+
+#input-field {
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    height: 40px;
+    width: 90%;
+    background-color: rgba(226, 221, 208, 0.1);
+    border: 2px solid rgba(255, 183, 0, 0.1);
+    text-align: center;
+    color: var(--text-color);
+    margin-top: 40px;
+}
+
+.light-mode #input-field {
+    background-color: rgba(94, 91, 85, 0.1);
+    border: 2px solid rgba(70, 50, 0, 0.459);
 }
 
 .touch-clavier {
