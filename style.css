@@ -663,7 +663,7 @@ footer {
     left: 0;
 }
 
-@media (width <= 900px) {
+@media (width <=900px) {
     .resultat {
         width: 100%;
     }
@@ -674,7 +674,8 @@ footer {
         z-index: 30;
     }
 }
-@media (width <= 700px) {
+
+@media (width <=700px) {
     .container .selection {
         display: none;
     }
